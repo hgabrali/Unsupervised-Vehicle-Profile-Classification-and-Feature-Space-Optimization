@@ -6,6 +6,55 @@ The project's final and most critical phase is a comparative discussion that add
 * **Supervised vs. Unsupervised Paradigm:** A conclusive statement determining which approach—the current unsupervised method or the previously employed supervised method—yields the superior and most reliable classification performance for the Prospect Auto requirement, supported by a comparison of key performance metrics.
 ---
 ---
+# 📊 Model Evaluation Summary: K-Means Clustering on PCA Data
+
+* This section summarizes the final results of the Unsupervised Classification pipeline, including model fitting status and detailed performance metrics for the K-Means clustering solution.
+
+
+# 📉 # 📉 Unsupervised Model Performance Metrics (K=3)/ Clustering Metrics (K=3)
+
+* **Model Evaluation: Clustering Metrics**
+
+The metrics assess the quality of the clusters found by K-Means ($\mathbf{K=3}$), both internally (structure) and externally (alignment with true vehicle classes).
+
+## 💻 Pipeline Status
+
+| Step | Status |
+| :--- | :--- |
+| **📊 Data Setup & PCA Transformation** | Data setup complete. Transformed to 7 Principal Components. |
+| **🧠 Model Fitting** | K-Means model fitted. |
+
+
+#### ✅ Pipeline Status
+The following metrics were calculated after successfully completing the full machine learning pipeline: data preparation, PCA dimensionality reduction to 7 components, and K-Means model fitting ($\mathbf{K=3}$) on the transformed training data.
+
+---
+
+### --- Model Evaluation: Clustering Metrics ---
+
+| Metric | Score | Type |
+| :--- | :--- | :--- |
+| **Adjusted Rand Index (ARI)** | **0.094** | External |
+| **Homogeneity** | 0.116 | External |
+| **Completeness** | 0.109 | External |
+| **V-Measure** | 0.113 | External |
+| **Silhouette Score** | **0.310** | Internal |
+| **Davies-Bouldin Index** | 1.245 | Internal |
+
+---
+
+## 🧐 Interpretation
+
+* **External Metrics (ARI, Homogeneity, Completeness):** The scores (e.g., ARI: 0.094) are extremely low, indicating that the clusters found by the K-Means algorithm **do not align** with the true vehicle classes (Bus, Car, Van) in the original dataset. The clustering solution failed to replicate the ground-truth classification.
+* **Internal Metrics (Silhouette, Davies-Bouldin):** The scores (Silhouette: 0.310, DB Index: 1.245) suggest the clusters are moderately distinct and dense within the 7-dimensional PCA space, but this separation is based on internal feature geometry, not the actual vehicle category.
+
+* The Internal Metrics (Silhouette: 0.310, Davies-Bouldin: 1.245) suggest the K-Means algorithm did find reasonable structure within the 7-component PCA space.
+
+* However, the External Metrics (ARI: 0.094) indicate that this structure does not align with the true vehicle classification (Bus, Car, Van).
+
+* **Conclusion:** The K-Means clusters are distinct in the feature space, but the geometric differences captured by the clusters do not strongly map to the differences between the vehicle types as labeled in the original dataset. The ARI suggests a failure to replicate the ground-truth classification using this specific unsupervised setup.
+
+
 
 
  # ⚖️ Final Comparative Analysis: Supervised vs. Unsupervised Paradigm
