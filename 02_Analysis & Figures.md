@@ -93,7 +93,7 @@ By choosing 7 components (a reduction of **61%** from 18 features), we retain **
 
 # 🔬 Technical Analysis: K-Means Clustering Results 🚗💨
 
-This table presents the evaluation metrics for the K-Means model trained on the **7-component PCA-transformed data** ($\mathbf{X_{train\_pca}}$). Since K-Means is an unsupervised algorithm, both internal and external validation metrics were used to assess the quality of the resulting clusters.
+* This table presents the evaluation metrics for the K-Means model trained on the **7-component PCA-transformed data** ($\mathbf{X_{train\_pca}}$). Since K-Means is an unsupervised algorithm, both internal and external validation metrics were used to assess the quality of the resulting clusters.
 
 ---
 
@@ -119,6 +119,10 @@ This metric evaluates the intrinsic quality and density of the clusters without 
 | **Silhouette Score** | $\mathbf{0.360}$ | **Moderately Separated.** Measures how similar a data point is to its own cluster compared to others. A score of $\mathbf{0.360}$ suggests the clusters are reasonably distinct and dense, but some overlap or ambiguity exists, which is typical for real-world high-dimensional data. |
 
 ---
+
+
+
+
 
 # 💡 Overall Conclusion: Unsupervised Model Validation ✅
 
