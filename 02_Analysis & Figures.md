@@ -120,7 +120,47 @@ This metric evaluates the intrinsic quality and density of the clusters without 
 
 ---
 
+# ⚙️ Technical Explanation: Unsupervised Classification (K-Means)
 
+This section details the implementation and optimization strategies used for the K-Means clustering algorithm on the dimensionality-reduced data ($\mathbf{X_{train\_pca}}$).
+
+---
+
+## 1. 🧩 Clustering Algorithm Implementation
+
+| Aspect | Detail | Technical Explanation |
+| :--- | :--- | :--- |
+| **Algorithm Choice** | **K-Means Clustering** | Selected as the unsupervised algorithm due to its efficiency and suitability for well-separated data, which is expected after PCA. |
+| **Parameter Setting** | $\mathbf{n\_clusters}$ was set to **3** ($\mathbf{K\_CLUSTERS = 3}$). | This aligns explicitly with the domain knowledge that the dataset contains three distinct vehicle classes (Bus, Car, Van). |
+
+---
+# KONTROL ET
+
+# 2. 🚀 Optimization and Training (K-Means Clustering)
+
+This section details the specific implementation choices made to ensure the K-Means clustering model runs efficiently and generates stable, high-quality clusters.
+
+---
+
+| Aspect | Detail | Technical Explanation |
+| :--- | :--- | :--- |
+| **Initialization Method** | The parameter $\mathbf{init='k-means++'}$ was used. | This is a **crucial optimization step** that intelligently selects initial cluster **centroids** (centers), significantly speeding up convergence and resulting in **better, more stable clusters** than random initialization. |
+| **Training Data** | Fitted exclusively on the $\mathbf{X_{train\_pca}}$ data. | The model was trained only on the 7-dimensional **reduced feature space** (obtained from PCA). This practice ensures the model learns the inherent structure only from the training data and benefits from the noise reduction provided by PCA. |
+| **Cluster Assignment** | Uses the $\mathbf{kmeans.labels\_}$ and $\mathbf{kmeans.predict()}$ methods. | $\mathbf{kmeans.labels\_}$ provides the cluster index assigned to each training data point. The testing data ($\mathbf{X_{test\_pca}}$) is assigned labels using $\mathbf{kmeans.predict()}$, which utilizes the centroids learned from the training data. |
+
+---
+
+## 📊 Clustering Results Summary
+
+The clustering successfully partitioned the **676 training samples** into three groups:
+
+| Cluster Index | Sample Count |
+| :--- | :--- |
+| **Cluster 0** | 212 samples |
+| **Cluster 1** | 258 samples |
+| **Cluster 2** | 206 samples |
+
+The next logical step is **Model Evaluation** to determine how well these clusters align with the true vehicle classes.
 
 
 
