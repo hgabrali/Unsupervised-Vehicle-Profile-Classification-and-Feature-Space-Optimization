@@ -1,5 +1,8 @@
 #  Data Preparation
 
+## Developer Note on Analysis Findings 📝
+
+I would like to note, before presenting the analysis findings, that I encountered an issue in the **Off-Diagonal (Pairwise Relationships - Scatter Plots)** section and was technically unable to transfer the formulas to GitHub. I plan to learn how to resolve this issue in my future work. For your information.
 
 <img width="869" height="509" alt="image" src="https://github.com/user-attachments/assets/79f251ec-bc82-4c0b-b6d0-f6d56e0ac50b" />
 
