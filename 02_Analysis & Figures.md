@@ -23,64 +23,68 @@ The final partitioning resulted in the following dataset sizes:
 
 ---
 
+# 💻 Technical Explanation: Data Preprocessing
+
+* This code block executes the critical steps required to prepare the raw vehicle silhouette data for the subsequent machine learning pipeline, specifically ensuring the data is suitable for distance-based algorithms like K-Means clustering.
+
+## 1. Feature and Target Separation
+
+* The feature set ($\mathbf{X}$) is created by dropping the categorical target variable ('class') from the DataFrame (df_veh). The target variable ($\mathbf{y}$) is saved separately. Although this project uses unsupervised learning, $\mathbf{y}$ is retained for calculating external clustering validation metrics such as the Adjusted Rand Index (ARI).
+
+
+## 2. Missing Value Imputation (Median Strategy)
+
+* Missing values (NaNs) in the feature set ($\mathbf{X}$) are handled using the SimpleImputer. The median strategy is chosen because the median is less sensitive to outliers compared to the mean, offering a more robust estimation for the geometric features. The imputer is fitted and transformed on $\mathbf{X}$, and the result is cast back to a DataFrame.
+
+
+* The data is standardized using the StandardScaler to transform the features to a $\mathbf{Z-score}$ distribution, where each feature has a mean ($\mu$) of $\mathbf{0}$ and a standard deviation ($\sigma$) of $\mathbf{1}$. This is vital for clustering algorithms, as it ensures all 18 features contribute equally to the distance metrics, preventing features with large magnitudes from artificially dominating the clustering process.
+
+## 4. Train/Test Split (80/20)
+
+* The fully cleaned and scaled data ($\mathbf{X_{scaled\_df}}$ and $\mathbf{y}$) is partitioned into training (80%) and testing (20%) subsets. The $\mathbf{X_{train}}$ set (features) will be used to fit the K-Means clustering model. The $\mathbf{X_{test}}$ set is reserved as an unseen data subset for final, unbiased evaluation of the clustering solution's generalizability. The random_state=42 ensures the split is reproducible.
+
 ## 💡 Why Standardization is Crucial for Clustering
 
 Clustering algorithms like K-Means rely on calculating the distance between data points (e.g., Euclidean distance). If the features are not scaled, the distance calculation will be overwhelmingly influenced by features with the largest magnitudes, effectively ignoring the contribution of features with smaller ranges. Standardization neutralizes this effect.
 
-# 📉 Dimensionality Reduction Assessment (PCA)
+---
 
-## 🎯 Variance Retention Analysis
+# 📉 Principal Component Analysis (PCA) Results
 
-This table summarizes the analysis conducted using **Principal Component Analysis (PCA)** on the standardized vehicle features. The goal was to determine the minimum number of principal components required to retain a high percentage of the original data's variance.
+<img width="879" height="525" alt="image" src="https://github.com/user-attachments/assets/c4d568b8-d619-4827-9297-9b97074eb7db" />
 
-| Component Count | Cumulative Explained Variance | Conclusion on Information Retention |
-| :--- | :--- | :--- |
-| **1** | 0.380 | Retains 38.0% of the total variance. |
-| **2** | 0.584 | Retains 58.4% of the total variance. |
-| **3** | 0.730 | Retains 73.0% of the total variance. |
-| **4** | 0.817 | Retains 81.7% of the total variance. |
-| **5** | 0.865 | Retains 86.5% of the total variance. |
-| **6** | 0.897 | Retains 89.7% of the total variance. |
-| **7** | 0.925 | Retains 92.5% of the total variance. |
-| **8** | 0.941 | Retains 94.1% of the total variance. |
-| **9** | 0.954 | Retains 95.4% of the total variance. |
-| **10** | 0.966 | Retains 96.6% of the total variance. |
-| **11** | 0.975 | Retains 97.5% of the total variance. |
-| **12** | 0.982 | Retains 98.2% of the total variance. |
-| **13** | 0.987 | Retains 98.7% of the total variance. |
-| **14** | 0.992 | Retains 99.2% of the total variance. |
-| **15** | 0.995 | Retains 99.5% of the total variance. |
-| **16** | 0.998 | Retains 99.8% of the total variance. |
-| **17** | 0.999 | Retains 99.9% of the total variance. |
-| **18** | 1.000 | Retains 100% of the total variance. |
+
+## 💡 Overview
+PCA was applied to the **18 standardized features** of the training set to identify the intrinsic dimensionality of the data while preserving the majority of the variance.
 
 ---
 
-## ✅ Key Insights
+## 1. Variance Preservation Analysis 📊
 
-* **90% Variance Threshold:** Only **7 components** are needed to retain over 90% ($\mathbf{92.5\%}$) of the original data variance.
-* **95% Variance Threshold:** Only **9 components** are needed to retain over 95% ($\mathbf{95.4\%}$) of the original data variance.
-* **Efficiency:** Reducing the 18-dimensional feature space to **9 dimensions** while preserving over 95% of the information is a strong justification for implementing PCA before clustering to improve model efficiency and reduce noise.
+The cumulative explained variance ratios show the trade-off between complexity (number of components) and information loss (variance retained).
 
-# 💾 PCA Data Projection Summary
-
-## 🔄 Transforming the Dataset
-
-Following the analysis that determined the optimal number of components required to retain variance (95% retention achieved with 9 components), this section details the projection of the scaled data onto the reduced feature space.
-
-| Step | Data Set | Original Shape (Features) | Target Shape (Components) | Description |
-| :--- | :--- | :--- | :--- | :--- |
-| **1. PCA Initialization** | N/A | 18 | **9** | PCA model is re-initialized and fitted to the training set, setting `n_components=9` to capture 95.4% of the variance. |
-| **2. Training Data Projection** | $\mathbf{X_{train}}$ | (676, 18) | **(676, 9)** | The standardized training features are transformed (projected) onto the 9 principal components. This reduced data set is used for clustering. |
-| **3. Testing Data Projection** | $\mathbf{X_{test}}$ | (170, 18) | **(170, 9)** | The standardized testing features are transformed using the *same* PCA model fitted on $X_{train}$. This ensures consistency and prepares the testing data for model validation. |
-| **4. Final Training Features** | $\mathbf{X_{train\_pca}}$ | N/A | **(676, 9)** | The final training set ready for Unsupervised Clustering (e.g., K-Means). |
-| **5. Final Testing Features** | $\mathbf{X_{test\_pca}}$ | N/A | **(170, 9)** | The final testing set reserved for robust model evaluation. |
+| Variance Threshold | Required Components (N) | Variance Retained | Implication |
+| :--- | :--- | :--- | :--- |
+| **90%** | **5** | **91.4%** | Significant dimensionality reduction is possible while maintaining high fidelity. |
+| **95%** | **7** | **96.2%** | **7 components** are sufficient to preserve almost all (96.2%) of the relevant information. |
 
 ---
 
-## 🚀 Impact of Dimensionality Reduction
+## 2. Conclusion on Efficiency 🚀
 
-Reducing the dimensionality from **18 features** to **9 principal components** is a critical optimization:
+**PCA is highly beneficial for this specific clustering problem.**
 
-* **Efficiency:** Significantly reduces the computational load and training time for the subsequent clustering algorithms.
-* **Noise Reduction:** Helps mitigate the impact of multicollinearity and noise inherent in the original 18-dimensional feature space, potentially leading to purer clusters.
+* **Original Feature Space Size:** 18 dimensions.
+* **Optimal Reduced Space Size:** **7 components**.
+
+By choosing 7 components (a reduction of **61%** from 18 features), we retain **over 96%** of the information content.
+
+### Benefits of Dimensionality Reduction:
+
+1.  **Improved Model Efficiency:** Substantially reduces the computational load and training time for the subsequent clustering algorithms.
+2.  **Noise Reduction:** Likely mitigates noise and multicollinearity in the feature space.
+3.  **Cleaner Results:** Expected to lead to **cleaner and more interpretable clustering results** by focusing on the most informative axes of the data.
+
+---
+
+*The visual representation of this analysis is typically provided in a **Scree Plot**, which graphically confirms that the curve flattens significantly after the 7th component.*
