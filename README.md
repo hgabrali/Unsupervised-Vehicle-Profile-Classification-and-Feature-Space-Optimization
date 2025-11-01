@@ -72,3 +72,10 @@ The project's final and most critical phase is a comparative discussion that add
 | **Data Manipulation** | Pandas, NumPy |
 | **Machine Learning** | Scikit-learn (PCA, Standard Scaler, K-Means) |
 | **Visualization (Recommended)** | Matplotlib, Seaborn |
+
+---
+---
+
+## Developer Note on Analysis Findings 📝
+
+I would like to note, before presenting the analysis findings, that I encountered an issue in the **Off-Diagonal (Pairwise Relationships - Scatter Plots)** section and was technically unable to transfer the formulas to GitHub. I plan to learn how to resolve this issue in my future work. For your information.
