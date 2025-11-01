@@ -120,33 +120,6 @@ This metric evaluates the intrinsic quality and density of the clusters without 
 
 ---
 
-# ⚙️ Technical Explanation: Unsupervised Classification (K-Means)
-
-This section details the implementation and optimization strategies used for the K-Means clustering algorithm on the dimensionality-reduced data ($\mathbf{X_{train\_pca}}$).
-
----
-
-## 1. 🧩 Clustering Algorithm Implementation
-
-| Aspect | Detail | Technical Explanation |
-| :--- | :--- | :--- |
-| **Algorithm Choice** | **K-Means Clustering** | Selected as the unsupervised algorithm due to its efficiency and suitability for well-separated data, which is expected after PCA. |
-| **Parameter Setting** | $\mathbf{n\_clusters}$ was set to **3** ($\mathbf{K\_CLUSTERS = 3}$). | This aligns explicitly with the domain knowledge that the dataset contains three distinct vehicle classes (Bus, Car, Van). |
-
----
-# KONTROL ET
-
-# 2. 🚀 Optimization and Training (K-Means Clustering)
-
-This section details the specific implementation choices made to ensure the K-Means clustering model runs efficiently and generates stable, high-quality clusters.
-
----
-
-| Aspect | Detail | Technical Explanation |
-| :--- | :--- | :--- |
-| **Initialization Method** | The parameter $\mathbf{init='k-means++'}$ was used. | This is a **crucial optimization step** that intelligently selects initial cluster **centroids** (centers), significantly speeding up convergence and resulting in **better, more stable clusters** than random initialization. |
-| **Training Data** | Fitted exclusively on the $\mathbf{X_{train\_pca}}$ data. | The model was trained only on the 7-dimensional **reduced feature space** (obtained from PCA). This practice ensures the model learns the inherent structure only from the training data and benefits from the noise reduction provided by PCA. |
-| **Cluster Assignment** | Uses the $\mathbf{kmeans.labels\_}$ and $\mathbf{kmeans.predict()}$ methods. | $\mathbf{kmeans.labels\_}$ provides the cluster index assigned to each training data point. The testing data ($\mathbf{X_{test\_pca}}$) is assigned labels using $\mathbf{kmeans.predict()}$, which utilizes the centroids learned from the training data. |
 
 ---
 
@@ -185,3 +158,36 @@ This high ARI score confirms that the clustering solution accurately mirrors the
 2.  Incorporating dimensionality reduction (PCA).
 
 The combination of these steps effectively solves the core vehicle classification problem, providing a robust, automated, and efficient solution based on the intrinsic structure of the vehicle profile data.
+
+
+
+# 📋 Data Set Preparation Checklist (Vehicle Silhouette Data)
+
+## 🚦 Pre-Processing Status Overview
+
+This checklist summarizes the status of the vehicle silhouette dataset after completing the necessary preprocessing steps (Imputation, Standardization, and PCA), ensuring optimal readiness for the clustering model.
+
+---
+
+
+<img width="543" height="246" alt="image" src="https://github.com/user-attachments/assets/897dd4c0-1822-423d-af39-765a05a19d5a" />
+
+
+
+---
+
+## ✅ Control List and Status
+
+| Step | Status | Description |
+| :--- | :--- | :--- |
+| **1. Missing Values (NaNs)** | **CLEANED** | All missing values have been handled via **Median Imputation** to ensure numerical integrity. |
+| **2. Categorical Encoding** | **N/A** | Not Applicable. All features are numeric (geometric properties). The target variable ('class') is kept separate for validation. |
+| **3. Feature Scaling** | **COMPLETED** | Features have been **Standardized** ($\mu=0, \sigma=1$) to prevent features with high magnitude from dominating distance metrics. |
+| **4. Dimensionality Reduction** | **COMPLETED** | Features have been projected from $\mathbf{18D}$ to $\mathbf{7D}$ using **PCA** (retaining >96% variance) for efficiency. |
+| **5. Train/Test Split** | **COMPLETED** | Data is partitioned into $\mathbf{80\%}$ **Training** and $\mathbf{20\%}$ **Testing** subsets for model development and generalization testing. |
+
+---
+
+## 🚀 Readiness Conclusion
+
+The dataset is fully preprocessed, scaled, and optimized. The resulting $\mathbf{X_{train\_pca}}$ and $\mathbf{X_{test\_pca}}$ matrices are now prepared to be utilized by the Unsupervised Classification (K-Means) model.
