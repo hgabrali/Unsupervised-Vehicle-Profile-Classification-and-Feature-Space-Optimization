@@ -11,13 +11,13 @@ The project's final and most critical phase is a comparative discussion that add
 * This section summarizes the final results of the Unsupervised Classification pipeline, including model fitting status and detailed performance metrics for the K-Means clustering solution.
 
 
-# 📉 # 📉 Unsupervised Model Performance Metrics (K=3)/ Clustering Metrics (K=3)
+## 📉 Unsupervised Model Performance Metrics (K=3)/ Clustering Metrics (K=3)
 
 * **Model Evaluation: Clustering Metrics**
 
 The metrics assess the quality of the clusters found by K-Means ($\mathbf{K=3}$), both internally (structure) and externally (alignment with true vehicle classes).
 
-## 💻 Pipeline Status
+### 💻 Pipeline Status
 
 | Step | Status |
 | :--- | :--- |
@@ -30,7 +30,7 @@ The following metrics were calculated after successfully completing the full mac
 
 ---
 
-### --- Model Evaluation: Clustering Metrics ---
+#### --- Model Evaluation: Clustering Metrics ---
 
 | Metric | Score | Type |
 | :--- | :--- | :--- |
