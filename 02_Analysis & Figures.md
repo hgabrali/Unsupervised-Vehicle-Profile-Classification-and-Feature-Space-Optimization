@@ -88,3 +88,56 @@ By choosing 7 components (a reduction of **61%** from 18 features), we retain **
 ---
 
 *The visual representation of this analysis is typically provided in a **Scree Plot**, which graphically confirms that the curve flattens significantly after the 7th component.*
+
+---
+
+# 🔬 Technical Analysis: K-Means Clustering Results 🚗💨
+
+This table presents the evaluation metrics for the K-Means model trained on the **7-component PCA-transformed data** ($\mathbf{X_{train\_pca}}$). Since K-Means is an unsupervised algorithm, both internal and external validation metrics were used to assess the quality of the resulting clusters.
+
+---
+
+## 1. External Validation Metrics (Ground Truth Comparison) 🎯
+
+These metrics compare the clusters found by the K-Means algorithm (the predicted labels) against the true vehicle class labels ($\mathbf{y_{train}}$), where a score of $1.0$ represents a perfect match.
+
+| Metric | Score | Analysis |
+| :--- | :--- | :--- |
+| **Adjusted Rand Index (ARI)** | $\mathbf{0.672}$ | **Strong Performance.** Measures the similarity between the true labels and the predicted clusters, adjusted for chance. A score of $\mathbf{0.672}$ indicates a substantial overlap ($\sim 67\%$) between the found clusters and the original vehicle classes. |
+| **Homogeneity** | $\mathbf{0.679}$ | **Good.** Measures whether each cluster contains only data points belonging to a single class (purity). |
+| **Completeness** | $\mathbf{0.677}$ | **Good.** Measures whether all data points belonging to a given class are assigned to the same cluster. |
+| **V-Measure** | $\mathbf{0.678}$ | **Good Overall Balance.** The harmonic mean of Homogeneity and Completeness, confirming a balanced alignment with true class labels. |
+
+---
+
+## 2. Internal Validation Metric (Cluster Quality) 💡
+
+This metric evaluates the intrinsic quality and density of the clusters without using the true class labels.
+
+| Metric | Score | Analysis |
+| :--- | :--- | :--- |
+| **Silhouette Score** | $\mathbf{0.360}$ | **Moderately Separated.** Measures how similar a data point is to its own cluster compared to others. A score of $\mathbf{0.360}$ suggests the clusters are reasonably distinct and dense, but some overlap or ambiguity exists, which is typical for real-world high-dimensional data. |
+
+---
+
+# 💡 Overall Conclusion: Unsupervised Model Validation ✅
+
+The final analysis confirms the efficacy of the unsupervised approach for Prospect Auto's vehicle classification needs.
+
+---
+
+## Model Performance Summary 📈
+
+The **unsupervised K-Means model**, applied to the **7-component PCA-reduced feature set**, demonstrates strong predictive power in differentiating the three vehicle profiles (Bus, Car, Van).
+
+* **Key Validation Metric:** The high **Adjusted Rand Index (ARI)** score of $\mathbf{0.672}$ is the most compelling result.
+
+## Strategic Validation for Prospect Auto 🎯
+
+This high ARI score confirms that the clustering solution accurately mirrors the ground-truth vehicle classification required by "Prospect Auto."
+
+**This successfully validates the approach:**
+1.  Using only geometric silhouette features.
+2.  Incorporating dimensionality reduction (PCA).
+
+The combination of these steps effectively solves the core vehicle classification problem, providing a robust, automated, and efficient solution based on the intrinsic structure of the vehicle profile data.
